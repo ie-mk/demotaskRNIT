@@ -1,13 +1,13 @@
 import React, {useState, useEffect,} from 'react';
-import { Button,Image, View, Text, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native';
+import { Image, View, Text, TouchableOpacity, ActivityIndicator, TextInput, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-// import styles from './styles'; 
+import styles from './styles'; 
 import { useNavigation } from '@react-navigation/native';
+var ImagePicker = require('react-native-image-picker');
 
 const ProfileScreen = () => {
- let imageurl = 'https://helostatus.com/wp-content/uploads/2021/03/WhatsApp-DP.jpg';
+  let imageurl = 'https://helostatus.com/wp-content/uploads/2021/03/WhatsApp-DP.jpg';
   const navigation = useNavigation();
-
 
   const [loader, setLoader] = useState(false);
   const [name, setName] = useState('');
@@ -51,6 +51,36 @@ const ProfileScreen = () => {
     AsyncStorage.setItem('ProfilePicture',profilePic);
   //  getDataFromStorage();
   }
+
+const  launchImageLibrary = () => {
+  let options = {
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  ImagePicker.launchImageLibrary(options, (response) => {
+    console.log('Response = ', response);
+
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+      alert(response.customButton);
+    } else {
+      const source = { uri: response.uri };
+      console.log('response', JSON.stringify(response), response.assets[0]);
+      setProfilePic(response.assets[0].uri);
+      console.log('uri image response==>',response.assets[0].uri);
+
+    }
+  });
+
+}
+
+
 if(loader){
   return(
     <View style={styles.container}>
@@ -58,47 +88,44 @@ if(loader){
   </View>
   )
 }
+console.log('uri image profile==>',profilePic);
 
   return (
-      <View style={{ flex: 1,
-       alignItems: 'center', 
-      // justifyContent: 'center' 
-       }}>
+      <View style={styles.containerScreen}>
 
+      <TouchableOpacity  onPress={()=> launchImageLibrary() }  >
         <Image
-        style={{ height: 100, width: 100,borderRadius: 50,margin: 50 }}
-        source={{
-          uri: profilePic
-        }}
-      />
-        <Text >Name: {name}</Text>
-        <Text style={{ paddingBottom: 10 }}>Address: {address}</Text>
-        <Text style={{ paddingBottom: 10 }}>PhoneNumber: {phoneNumber}</Text>
+          style={styles.image}
+          source={{
+              uri: profilePic
+            }}
+          />
+      </TouchableOpacity>
+        <Text style={styles.text}>Name: {name}</Text>
+        <Text style={styles.text}>Address: {address}</Text>
+        <Text style={styles.text}>PhoneNumber: {phoneNumber}</Text>
 
-       <View style={
-           { justifyContent:'center',height: 40,width: '80%', borderColor:'red', margin:10,  backgroundColor:'#e3e3e3'}}>
+       <View style={ styles.viewInput }>
         <TextInput
-           style={{marginLeft: 10,}}
-
+            style={styles.marginInput}
             placeholder="Name"
             onChangeText={text => setName(text)}
             defaultValue={name}
         />       
        </View>
 
-       <View style={{ justifyContent:'center',height: 40,width: '80%', borderColor:'red', margin:10,  backgroundColor:'#e3e3e3'}}>
+       <View style={ styles.viewInput }>
         <TextInput
-           style={{marginLeft: 10,}}
-
+            style={styles.marginInput}
             placeholder="Address"
             onChangeText={text => setAddress(text)}
             defaultValue={address}
         />       
        </View>
 
-       <View style={{ justifyContent:'center',height: 40,width: '80%', borderColor:'red', margin:10,  backgroundColor:'#e3e3e3'}}>
+       <View style={ styles.viewInput }>
         <TextInput
-           style={{marginLeft: 10,}}
+            style={styles.marginInput}
             maxLength={10}
             keyboardType='phone-pad'
             placeholder="Phone Number"
@@ -109,7 +136,7 @@ if(loader){
 
        <View>
         <TouchableOpacity 
-          style={{padding:10,backgroundColor:'green', borderRadius: 10, marginTop: 30 }}
+          style={styles.button }
           onPress={()=> setDataToStorage()}
         >
           <Text>Submit</Text>
@@ -118,7 +145,7 @@ if(loader){
 
         <View>
         <TouchableOpacity 
-          style={{padding:10,backgroundColor:'green', borderRadius: 10, marginTop: 30 }}
+          style={ styles.button }
           onPress={()=> navigation.navigate('Home')}
         >
           <Text>Go To Home</Text>

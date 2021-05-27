@@ -23,7 +23,15 @@ const styles = StyleSheet.create({
        padding:10,
        backgroundColor:'green', 
        borderRadius: 10, 
-       marginTop: 100 
+       marginTop: 30 
+      },
+     viewInput: { 
+       justifyContent:'center',
+       height: 40,
+       width: '80%', 
+       borderColor:'red', 
+       margin:10,  
+       backgroundColor:'#e3e3e3'
       },
       text: { 
         paddingBottom: 8

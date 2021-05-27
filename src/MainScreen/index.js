@@ -1,8 +1,8 @@
 import React, {useState, useEffect,} from 'react';
-import { Button,Image, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Image, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles'; 
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const MainScreen = () => {
  let imageurl = 'https://helostatus.com/wp-content/uploads/2021/03/WhatsApp-DP.jpg';
@@ -15,12 +15,6 @@ const MainScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [profilePic, setProfilePic] = useState(imageurl);
 
-//   useFocusEffect(
-//     React.useCallback(() => {
-//         console.log('useFocusEffect ==> ')
-//         getDataFromStorage();
-//     }, [])
-//   );
 
   useEffect(() => {
    getDataFromStorage();
@@ -68,24 +62,21 @@ if(loader){
   )
 }
   return (
-      <View style={{ flex: 1,
-       alignItems: 'center', 
-      // justifyContent: 'center' 
-       }}>
+    <View style={styles.containerScreen}>
 
         <Image
-        style={{ height: 100, width: 100,borderRadius: 50,margin: 50 }}
-        source={{
-          uri: profilePic
-        }}
-      />
-        <Text style={{ paddingBottom: 10 }}>Name: {name}</Text>
-        <Text style={{ paddingBottom: 10 }}>Address: {address}</Text>
-        <Text style={{ paddingBottom: 10 }}>PhoneNumber: {phoneNumber}</Text>
+            style={styles.image}
+            source={{
+            uri: profilePic
+          }}
+          />
+        <Text style={styles.text}>Name: {name}</Text>
+        <Text style={styles.text}>Address: {address}</Text>
+        <Text style={styles.text}>PhoneNumber: {phoneNumber}</Text>
 
         <View>
         <TouchableOpacity 
-          style={{padding:10,backgroundColor:'green', borderRadius: 10, margin: 100 }}
+          style={styles.button }
           onPress={()=> {
               navigation.navigate('Profile');
             }}

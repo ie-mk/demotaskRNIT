@@ -34,14 +34,6 @@ const Stack = createStackNavigator();
 
 function App() {
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator>
-    //     <Stack.Screen name="Home" component={MainScreen} />
-    //   </Stack.Navigator>
-    //   <Stack.Navigator>
-    //     <Stack.Screen name="Profile" component={ProfileScreen} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
      <NavigationContainer>
      <Stack.Navigator>
        <Stack.Screen name="Home" component={MainScreen} />
@@ -51,6 +43,4 @@ function App() {
    </NavigationContainer>
   );
 }
-
-// export default createAppContainer(AppNavigator);
 export default App;
